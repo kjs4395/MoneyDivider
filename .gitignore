@@ -3,6 +3,7 @@ HELP.md
 build/
 gradle/
 gradlew*
+src/generated/
 
 ### STS ###
 .apt_generated

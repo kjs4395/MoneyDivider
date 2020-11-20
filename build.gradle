@@ -1,12 +1,15 @@
 plugins {
-    id 'org.springframework.boot' version '2.4.0'
-    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'org.springframework.boot' version "$SPRING_BOOT_VERSION"
+    id 'nu.studer.jooq' version "$JOOQ_PLUGIN_VERSION"
     id 'java'
 }
 
+apply plugin: 'io.spring.dependency-management'
+
 group = 'com.kakaopay'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+version = "$PROJECT_VERSION"
+sourceCompatibility = "$JAVA_VERSION"
+targetCompatibility = "$JAVA_VERSION"
 
 configurations {
     compileOnly {
@@ -19,15 +22,45 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-parent', version: '2.1.3.RELEASE', ext: 'pom'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-jooq'
     compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'com.h2database:h2'
+    jooqGenerator 'mysql:mysql-connector-java:5.+'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 test {
     useJUnitPlatform()
+}
+
+jooq {
+    configurations {
+        main {
+            generationTool {
+                jdbc {
+                    driver = 'com.mysql.jdbc.Driver'
+                    url = "jdbc:mysql://$JOOQ_DB_HOST:$JOOQ_DB_PORT/$JOOQ_SCHEMA"
+                    user = "$JOOQ_USER"
+                    password = "$JOOQ_PASSWORD"
+                }
+                generator {
+                    database {
+                        inputSchema = "$JOOQ_SCHEMA"
+                    }
+                    generate {
+                        javaTimeTypes = true
+                    }
+                    target {
+                        packageName = "$JOOQ_PACKAGE_NAME"
+                        directory = "$JOOQ_CODEGEN_DIR"
+                    }
+                    strategy {
+                        name = 'org.jooq.codegen.example.JPrefixGeneratorStrategy'
+                    }
+                }
+            }
+        }
+    }
 }
