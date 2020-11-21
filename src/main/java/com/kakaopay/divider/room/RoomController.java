@@ -1,7 +1,10 @@
 package com.kakaopay.divider.room;
 
 import com.kakaopay.divider.domain.jooq.tables.pojos.JRoom;
+import com.kakaopay.divider.domain.jooq.tables.pojos.JRoomMember;
 import com.kakaopay.divider.room.service.RoomService;
+import com.kakaopay.divider.room.vo.RoomMemberRequest;
+import com.kakaopay.divider.room.vo.RoomMemberResponse;
 import com.kakaopay.divider.room.vo.RoomRequest;
 import com.kakaopay.divider.room.vo.RoomResponse;
 import lombok.RequiredArgsConstructor;
@@ -31,5 +34,16 @@ public class RoomController {
     public RoomResponse createRoom(@Valid @RequestBody RoomRequest roomRequest) {
         JRoom room = roomService.insertRoom(roomRequest);
         return new RoomResponse(room);
+    }
+
+    /**
+     * 뿌리기 룸 입장 처리
+     * @param roomMemberRequest  - 룸 입장 요청 정보
+     * @return
+     */
+    @PostMapping("/member")
+    public RoomMemberResponse joinRoom(@Valid @RequestBody RoomMemberRequest roomMemberRequest) {
+        JRoomMember roomMember = roomService.insertRoomMember(roomMemberRequest);
+        return new RoomMemberResponse(roomMember);
     }
 }
