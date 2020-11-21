@@ -51,6 +51,14 @@ jooq {
                 generator {
                     database {
                         inputSchema = "$JOOQ_SCHEMA"
+                        forcedTypes {
+                            forcedType {
+                                userType = 'com.kakaopay.divider.money.vo.MoneyState'
+                                enumConverter = true
+                                includeExpression = 'money.state'
+                                includeTypes = '.*'
+                            }
+                        }
                     }
                     generate {
                         javaTimeTypes = true

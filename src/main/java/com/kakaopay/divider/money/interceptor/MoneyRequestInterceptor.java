@@ -1,5 +1,6 @@
 package com.kakaopay.divider.money.interceptor;
 
+import com.kakaopay.divider.common.vo.ApiException;
 import com.kakaopay.divider.money.interceptor.vo.MoneyRequestId;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
@@ -22,11 +23,11 @@ public class MoneyRequestInterceptor extends HandlerInterceptorAdapter {
 
 		if (StringUtils.isEmpty(userId) || StringUtils.isEmpty(roomId)) {
 			response.setStatus(HttpStatus.FORBIDDEN.value());
-			return false;
+			throw new ApiException("ID 정보가 없습니다.");
 		}
 
-		MoneyRequestId requestIdDto = new MoneyRequestId(roomId, Integer.valueOf(userId));
-		request.setAttribute("requestIdDto", requestIdDto);
+		MoneyRequestId moneyRequestId = new MoneyRequestId(Integer.valueOf(roomId), Integer.valueOf(userId));
+		request.setAttribute("moneyRequestId", moneyRequestId);
 		return true;
 	}
 }
