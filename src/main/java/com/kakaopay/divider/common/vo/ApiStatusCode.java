@@ -18,7 +18,7 @@ public enum ApiStatusCode {
     INVALID_ROOM_REQUEST(10003, "유효하지 않은 룸 생성 요청입니다."),
     INVALID_JOIN_ROOM_REQUEST(10004, "유효하지 않음 룸 입장 요청입니다."),
     INVALID_MONEY_REQUEST(10005, "유효하지 않은 뿌리기 요청입니다."),
-    INVALID_MONEY_REQUEST_ID(1006, "ID 정보가 없습니다."),
+    INVALID_MONEY_REQUEST_ID(10006, "ID 정보가 없습니다."),
     INVALID_MONEY_DIVIDE_REQUEST(10007, "유효하지 않은 뿌린 금액 받기 요청입니다."),
 
     // 뿌리기 에러
