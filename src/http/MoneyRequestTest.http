@@ -1,0 +1,10 @@
+### 머니 뿌리기 정보 생성
+POST http://localhost:8080/money
+X-ROOM-ID: 1
+X-USER-ID: 1
+Content-Type: application/json
+
+{
+  "amount" : 10000,
+  "divideNum" : 3
+}

@@ -1,0 +1,9 @@
+### 뿌린 금액 받기
+PUT http://localhost:8080/money/divide
+X-ROOM-ID: 1
+X-USER-ID: 2
+Content-Type: application/json
+
+{
+  "token" : "(a;"
+}

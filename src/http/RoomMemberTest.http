@@ -1,0 +1,8 @@
+### 룸 입장
+POST http://localhost:8080/room/member
+Content-Type: application/json
+
+{
+  "roomId" : 1,
+  "userId" : 2
+}

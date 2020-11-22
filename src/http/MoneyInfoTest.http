@@ -1,0 +1,4 @@
+### 머니 뿌리기 정보 조회
+GET http://localhost:8080/money/(a%3B
+X-ROOM-ID: 1
+X-USER-ID: 1
