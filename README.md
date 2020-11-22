@@ -44,9 +44,11 @@
     2. 예외 상황일 시 ApiException을 통해 정의된 응답값으로 반환
 
 
-## 예외상황 응답 예시
+## 상황별 응답 코드
 | 예외상황 | exception | 에러코드
 |---|:---:|:---:|
+|성공|SUCCESS|200|
+|기타 서버 에러|FAIL|500|
 |유효하지 않은 토큰|INVALID_TOKEN|10001|
 |유효하지 않은 사용자 생성 요청|INVALID_USER_REQUEST|10002|
 |유효하지 않은 룸 생성 요청|INVALID_ROOM_REQUEST|10003|
