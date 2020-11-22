@@ -1,15 +1,19 @@
 package com.kakaopay.divider.money.dao;
 
 import com.kakaopay.divider.domain.jooq.tables.daos.JMoneyDivideInfoDao;
+import com.kakaopay.divider.domain.jooq.tables.pojos.JMoney;
 import com.kakaopay.divider.domain.jooq.tables.pojos.JMoneyDivideInfo;
 import com.kakaopay.divider.money.vo.MoneyDivideRequest;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
+import org.jooq.Record;
+import org.jooq.Result;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 
 import static com.kakaopay.divider.domain.jooq.Tables.MONEY_DIVIDE_INFO;
+import static com.kakaopay.divider.domain.jooq.Tables.USER;
 
 /**
  * Created By kjs4395 on 2020-11-21
@@ -36,6 +40,16 @@ public class MoneyDivideInfoDao extends JMoneyDivideInfoDao {
                         seq
                 )
         );
+    }
+
+    public Result<Record> findListByMoney(JMoney money) {
+        return context.select()
+                .from(MONEY_DIVIDE_INFO)
+                .innerJoin(USER).on(USER.ID.eq(MONEY_DIVIDE_INFO.RECEIVE_USER_ID))
+                .where(MONEY_DIVIDE_INFO.MONEY_ROOM_ID.eq(money.getRoomId()))
+                .and(MONEY_DIVIDE_INFO.MONEY_TOKEN.eq(money.getToken()))
+                .orderBy(MONEY_DIVIDE_INFO.SEQ.asc())
+                .fetch();
     }
 
     public boolean isReceivedUser(MoneyDivideRequest moneyDivideRequest) {
