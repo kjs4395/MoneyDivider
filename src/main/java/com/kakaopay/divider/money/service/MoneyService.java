@@ -13,6 +13,7 @@ import com.kakaopay.divider.money.util.TokenGenerator;
 import com.kakaopay.divider.money.vo.MoneyInfoReseponse;
 import com.kakaopay.divider.money.vo.MoneyRequest;
 import com.kakaopay.divider.money.vo.MoneyState;
+import com.kakaopay.divider.room.dao.RoomDao;
 import lombok.RequiredArgsConstructor;
 import org.jooq.Record;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class MoneyService {
+    private final RoomDao roomDao;
     private final MoneyDao moneyDao;
     private final MoneySeqDao moneySeqDao;
     private final MoneyDivideInfoDao moneyDivideInfoDao;
@@ -36,6 +38,10 @@ public class MoneyService {
 
     @Transactional
     public JMoney generateMoneyForDivide(MoneyRequest moneyRequest) {
+        if(!roomDao.isRoomMember(moneyRequest.getId())) {
+            throw new ApiException(ApiStatusCode.NOT_IN_ROOM_MEMBER);
+        }
+
         JMoney money = this.insertMoney(moneyRequest);
         moneyDivideInfoService.insertMoneyDivideInfos(money, moneyRequest.getDivideNum());
         moneySeqDao.generateMoneySeq(money, moneyRequest.getDivideNum());
