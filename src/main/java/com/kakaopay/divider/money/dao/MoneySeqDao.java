@@ -1,6 +1,7 @@
 package com.kakaopay.divider.money.dao;
 
 import com.kakaopay.divider.common.vo.ApiException;
+import com.kakaopay.divider.common.vo.ApiStatusCode;
 import com.kakaopay.divider.domain.jooq.tables.pojos.JMoney;
 import com.kakaopay.divider.money.vo.MoneyDivideRequest;
 import lombok.RequiredArgsConstructor;
@@ -31,12 +32,12 @@ public class MoneySeqDao {
 
 		Boolean hasKey = redisTemplate.hasKey(key);
 		if(hasKey == null || !hasKey) {
-			throw new ApiException("받을 수 있는 금액이 없습니다.");
+			throw new ApiException(ApiStatusCode.EMPTY_NEXT_MONEY_SEQ);
 		}
 
 		Integer moneySeq = (Integer) redisTemplate.opsForList().leftPop(key);
 		if(moneySeq == null) {
-			throw new ApiException("받을 수 있는 금액이 없습니다.");
+			throw new ApiException(ApiStatusCode.EMPTY_NEXT_MONEY_SEQ);
 		}
 		return moneySeq;
 	}

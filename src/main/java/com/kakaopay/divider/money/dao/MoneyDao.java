@@ -36,7 +36,7 @@ public class MoneyDao extends JMoneyDao {
                 .fetchOne(MONEY.OWNER_ID) != null;
     }
 
-    public boolean isTimeout(MoneyDivideRequest moneyDivideRequest) {
+    public boolean isExpired(MoneyDivideRequest moneyDivideRequest) {
         return context.select(MONEY.ROOM_ID)
                 .from(MONEY)
                 .where(MONEY.ROOM_ID.eq(moneyDivideRequest.getId().getRoomId()))

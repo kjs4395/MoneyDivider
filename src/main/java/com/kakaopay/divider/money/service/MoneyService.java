@@ -1,6 +1,7 @@
 package com.kakaopay.divider.money.service;
 
 import com.kakaopay.divider.common.vo.ApiException;
+import com.kakaopay.divider.common.vo.ApiStatusCode;
 import com.kakaopay.divider.domain.jooq.tables.pojos.JMoney;
 import com.kakaopay.divider.domain.jooq.tables.pojos.JMoneyDivideInfo;
 import com.kakaopay.divider.domain.jooq.tables.pojos.JUser;
@@ -56,7 +57,7 @@ public class MoneyService {
     public MoneyInfoReseponse.MoneyInfo getMoneyInfo(MoneyRequestId moneyRequestId, String token) {
         Record moneyRecord = moneyDao.findMoneyInfoByOwnerId(moneyRequestId, token);
         if(moneyRecord == null) {
-            throw new ApiException("조회 가능한 뿌리기 정보가 없습니다.");
+            throw new ApiException(ApiStatusCode.MONEY_NOT_FOUND);
         }
 
         JMoney money = moneyRecord.into(JMoney.class);

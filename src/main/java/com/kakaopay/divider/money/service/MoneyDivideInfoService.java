@@ -1,6 +1,7 @@
 package com.kakaopay.divider.money.service;
 
 import com.kakaopay.divider.common.vo.ApiException;
+import com.kakaopay.divider.common.vo.ApiStatusCode;
 import com.kakaopay.divider.domain.jooq.tables.pojos.JMoney;
 import com.kakaopay.divider.domain.jooq.tables.pojos.JMoneyDivideInfo;
 import com.kakaopay.divider.money.dao.MoneyDao;
@@ -45,20 +46,20 @@ public class MoneyDivideInfoService {
 	}
 
 	public JMoneyDivideInfo receiveMoneyDivide(MoneyDivideRequest moneyDivideRequest) {
-		if(moneyDao.isTimeout(moneyDivideRequest)) {
-			throw new ApiException("유효하지 않은 뿌리기입니다.");
+		if(moneyDao.isExpired(moneyDivideRequest)) {
+			throw new ApiException(ApiStatusCode.MONEY_EXPIRED);
 		}
 
 		if(moneyDao.isOwner(moneyDivideRequest)) {
-			throw new ApiException("자신이 뿌리기한 건은 자신이 받을 수 없습니다.");
+			throw new ApiException(ApiStatusCode.NOT_ALLOWED_DIVIDE_BY_OWNER);
 		}
 
 		if(!roomDao.isRoomMember(moneyDivideRequest.getId())) {
-			throw new ApiException("뿌리기가 호출된 대화방과 동일한 대화방에 속한 사용자만이 받을 수 있습니다.");
+			throw new ApiException(ApiStatusCode.NOT_IN_ROOM_MEMBER);
 		}
 
 		if(moneyDivideInfoDao.isReceivedUser(moneyDivideRequest)) {
-			throw new ApiException("이미 받아간 사용자입니다.");
+			throw new ApiException(ApiStatusCode.ALREADY_RECEIVE_USER);
 		}
 
 		int seq = moneySeqDao.nextMoneySeq(moneyDivideRequest);
@@ -66,7 +67,8 @@ public class MoneyDivideInfoService {
 		if(update <= 0) {
 			moneySeqDao.restoreMoneySeq(moneyDivideRequest, seq);
 			throw new ApiException(
-					String.format("잘못된 처리된 뿌리기 정보입니다. (roomId: %d, token: %s, seq: %d)",
+					ApiStatusCode.MONEY_RECEIVE_FAIL,
+					String.format("잘못된 뿌리기 정보입니다. (roomId: %d, token: %s, seq: %d)",
 							moneyDivideRequest.getId().getRoomId(),
 							moneyDivideRequest.getToken(),
 							seq

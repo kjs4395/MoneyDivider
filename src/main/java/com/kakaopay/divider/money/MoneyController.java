@@ -1,6 +1,7 @@
 package com.kakaopay.divider.money;
 
 import com.kakaopay.divider.common.vo.ApiException;
+import com.kakaopay.divider.common.vo.ApiStatusCode;
 import com.kakaopay.divider.domain.jooq.tables.pojos.JMoney;
 import com.kakaopay.divider.domain.jooq.tables.pojos.JMoneyDivideInfo;
 import com.kakaopay.divider.money.interceptor.vo.MoneyRequestId;
@@ -66,7 +67,7 @@ public class MoneyController {
                                            @PathVariable String token) throws UnsupportedEncodingException {
         String decodedToken = URLDecoder.decode(token, StandardCharsets.UTF_8.name());
         if(decodedToken.length() != 3) {
-            throw new ApiException("유효하지 않은 토큰입니다.");
+            throw new ApiException(ApiStatusCode.INVALID_TOKEN);
         }
         return new MoneyInfoReseponse(moneyService.getMoneyInfo(moneyRequestId, decodedToken));
     }
