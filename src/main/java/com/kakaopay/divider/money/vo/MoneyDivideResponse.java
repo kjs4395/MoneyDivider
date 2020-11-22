@@ -1,5 +1,6 @@
 package com.kakaopay.divider.money.vo;
 
+import com.kakaopay.divider.common.vo.ApiResponse;
 import com.kakaopay.divider.domain.jooq.tables.pojos.JMoneyDivideInfo;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,6 @@ import lombok.RequiredArgsConstructor;
  */
 @Getter
 @RequiredArgsConstructor
-public class MoneyDivideResponse {
+public class MoneyDivideResponse extends ApiResponse {
 	private final JMoneyDivideInfo moneyDivideInfo;
 }

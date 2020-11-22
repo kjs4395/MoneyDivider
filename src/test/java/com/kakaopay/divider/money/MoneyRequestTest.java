@@ -1,6 +1,7 @@
 package com.kakaopay.divider.money;
 
 import com.kakaopay.divider.common.vo.ApiStatusCode;
+import com.kakaopay.divider.money.util.MoneyRequestId;
 import com.kakaopay.divider.money.vo.MoneyRequest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,14 +19,11 @@ public class MoneyRequestTest {
     @Autowired
     private WebTestClient webTestClient;
 
-    private static final String X_ROOM_ID = "X-ROOM-ID";
-    private static final String X_USER_ID = "X-USER-ID";
-
     @Test
     public void 뿌리기_요청_ID_유효성_확인() {
         webTestClient.post().uri("/money")
-                .header(X_ROOM_ID, "")
-                .header(X_USER_ID, "")
+                .header(MoneyRequestId.X_ROOM_ID, "")
+                .header(MoneyRequestId.X_USER_ID, "")
                 .exchange()
                 .expectStatus().isForbidden()
                 .expectBody()
@@ -40,8 +38,8 @@ public class MoneyRequestTest {
         moneyRequest.setDivideNum(-1);
 
         webTestClient.post().uri("/money")
-                .header(X_ROOM_ID, "1")
-                .header(X_USER_ID, "1")
+                .header(MoneyRequestId.X_ROOM_ID, "1")
+                .header(MoneyRequestId.X_USER_ID, "1")
                 .bodyValue(moneyRequest)
                 .exchange()
                 .expectStatus().isOk()
@@ -57,8 +55,8 @@ public class MoneyRequestTest {
         moneyRequest.setDivideNum(3);
 
         webTestClient.post().uri("/money")
-                .header(X_ROOM_ID, "1")
-                .header(X_USER_ID, "9999")
+                .header(MoneyRequestId.X_ROOM_ID, "1")
+                .header(MoneyRequestId.X_USER_ID, "9999")
                 .bodyValue(moneyRequest)
                 .exchange()
                 .expectStatus().isOk()
@@ -74,8 +72,8 @@ public class MoneyRequestTest {
         moneyRequest.setDivideNum(3);
 
         webTestClient.post().uri("/money")
-                .header(X_ROOM_ID, "1")
-                .header(X_USER_ID, "1")
+                .header(MoneyRequestId.X_ROOM_ID, "1")
+                .header(MoneyRequestId.X_USER_ID, "1")
                 .bodyValue(moneyRequest)
                 .exchange()
                 .expectStatus().isOk()
