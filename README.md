@@ -16,8 +16,25 @@
 - Spring boot 2.3.6
 - MySQL 5.7
 - jOOQ 3.13
+- Redis
 - Lombok
 ```
+
+## 테스트시 실행 순서
+1. Redis 실행 (localhost:6379)
+1. MySQL 실행 (localhost:3306)
+1. MySQL 사용자 생성 (admin/1234)
+1. MySQL 테이블 생성 (*첨부된 [SQL](./money_divider_init.sql) 파일 참조)
+1. jOOQ 빌드 (`jooq > generateJooq` Gradle task 실행)
+1. [http](./src/http) 파일을 참고하여 API 호출
+1. API 호출 순서
+    1. 사용자 생성
+    1. 룸 생성
+    1. 룸 입장
+    1. 뿌리기 정보 생성
+    1. 뿌린 금액 받기
+    1. 뿌리기 정보 조회
+        - token에 특수문자가 포함되므로 URL 인코딩 해서 전달 필요
 
 ## API 구성
 | url | method | 의미 | http파일링크
