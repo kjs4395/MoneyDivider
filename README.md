@@ -1,7 +1,7 @@
 # MoneyDivider
 머니뿌리기 구현
 
-## Table Structure [[ERD](./money_divider_erd.mwb)]
+## Table Structure [[ERD](./money_divider_erd.png)][[SQL](./money_divider_init.sql)]
 ```
 - money
 - money_divide_info
